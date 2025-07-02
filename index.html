@@ -11,21 +11,24 @@
       height: 100vh;
     }
 
-    img {
+    #container {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      max-width: 150px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    img {
+      max-width: 80px;
       border-radius: 10px;
-      z-index: 10;
     }
 
     #welcome {
-      position: absolute;
       font-size: 32px;
       font-weight: bold;
       color: red;
       white-space: nowrap;
+      animation: colorChange 1s infinite;
     }
 
     @keyframes colorChange {
@@ -39,11 +42,14 @@
   </style>
 </head>
 <body>
-  <img src="cristiano.png" alt="Cristiano Cirino" />
-  <div id="welcome">Seja bem-vindo de volta, Cristiano!</div>
+  <div id="container">
+    <img src="cristiano.png" alt="Cristiano Cirino" />
+    <div id="welcome">Seja bem-vindo de volta, Cristiano!</div>
+  </div>
 
   <script>
-    const welcome = document.getElementById("welcome");
+    const container = document.getElementById("container");
+    const welcomeEl = document.getElementById("welcome");
     const translations = [
       "Seja bem-vindo de volta, Cristiano!",
       "¡Bienvenido de nuevo, Cristiano!",
@@ -63,7 +69,7 @@
 
     let index = 0;
     setInterval(() => {
-      welcome.textContent = translations[index];
+      welcomeEl.textContent = translations[index];
       index = (index + 1) % translations.length;
     }, 1000);
 
@@ -73,7 +79,7 @@
     let velY = 2;
 
     function animate() {
-      const rect = welcome.getBoundingClientRect();
+      const rect = container.getBoundingClientRect();
       const winW = window.innerWidth;
       const winH = window.innerHeight;
 
@@ -83,8 +89,8 @@
       posX += velX;
       posY += velY;
 
-      welcome.style.left = posX + 'px';
-      welcome.style.top = posY + 'px';
+      container.style.left = posX + 'px';
+      container.style.top = posY + 'px';
       requestAnimationFrame(animate);
     }
 
