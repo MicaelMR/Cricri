@@ -8,17 +8,16 @@
       margin: 0;
       background-color: #000;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       height: 100vh;
-      flex-direction: column;
     }
 
     img {
-      max-width: 200px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      max-width: 150px;
       border-radius: 10px;
-      margin-bottom: 20px;
+      z-index: 10;
     }
 
     #welcome {
@@ -26,7 +25,6 @@
       font-size: 32px;
       font-weight: bold;
       color: red;
-      animation: bounce 15s linear infinite, colorChange 1s infinite, translateDVD 12s infinite;
       white-space: nowrap;
     }
 
@@ -38,14 +36,6 @@
       80% { color: hotpink; }
       100% { color: red; }
     }
-
-    @keyframes translateDVD {
-      0%   { top: 0%; left: 0%; }
-      25%  { top: 0%; left: 80%; }
-      50%  { top: 80%; left: 80%; }
-      75%  { top: 80%; left: 0%; }
-      100% { top: 0%; left: 0%; }
-    }
   </style>
 </head>
 <body>
@@ -53,29 +43,52 @@
   <div id="welcome">Seja bem-vindo de volta, Cristiano!</div>
 
   <script>
+    const welcome = document.getElementById("welcome");
     const translations = [
-      "Seja bem-vindo de volta, Cristiano!", // Português
-      "¡Bienvenido de nuevo, Cristiano!", // Espanhol
-      "Welcome back, Cristiano!", // Inglês
-      "Bonvenon reen, Cristiano!", // Esperanto
-      "Iterum gratum, Cristiano!", // Latim
-      "Welkom terug, Cristiano!", // Holandês
-      "Bon retour, Cristiano!", // Francês
-      "Добро пожаловать обратно, Cristiano!", // Russo
-      "أهلا بعودتك، Cristiano!", // Árabe
-      "歡迎回來，Cristiano!", // Mandarim
-      "おかえりなさい、Cristiano!", // Japonês
-      "Willkommen zurück, Cristiano!", // Alemão
-      "Καλωσήρθες επιστροφή, Cristiano!", // Grego
-      "Bentornato, Cristiano!" // Italiano
+      "Seja bem-vindo de volta, Cristiano!",
+      "¡Bienvenido de nuevo, Cristiano!",
+      "Welcome back, Cristiano!",
+      "Bonvenon reen, Cristiano!",
+      "Iterum gratum, Cristiano!",
+      "Welkom terug, Cristiano!",
+      "Bon retour, Cristiano!",
+      "Добро пожаловать обратно, Cristiano!",
+      "أهلا بعودتك، Cristiano!",
+      "歡迎回來，Cristiano!",
+      "おかえりなさい、Cristiano!",
+      "Willkommen zurück, Cristiano!",
+      "Καλωσήρθες επιστροφή, Cristiano!",
+      "Bentornato, Cristiano!"
     ];
 
-    const welcomeEl = document.getElementById("welcome");
     let index = 0;
     setInterval(() => {
-      welcomeEl.textContent = translations[index];
+      welcome.textContent = translations[index];
       index = (index + 1) % translations.length;
     }, 1000);
+
+    let posX = 100;
+    let posY = 100;
+    let velX = 2;
+    let velY = 2;
+
+    function animate() {
+      const rect = welcome.getBoundingClientRect();
+      const winW = window.innerWidth;
+      const winH = window.innerHeight;
+
+      if (posX + rect.width >= winW || posX <= 0) velX *= -1;
+      if (posY + rect.height >= winH || posY <= 0) velY *= -1;
+
+      posX += velX;
+      posY += velY;
+
+      welcome.style.left = posX + 'px';
+      welcome.style.top = posY + 'px';
+      requestAnimationFrame(animate);
+    }
+
+    animate();
   </script>
 </body>
 </html>
